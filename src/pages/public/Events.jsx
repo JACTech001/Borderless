@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { Calendar, MapPin, Users, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, Users, ArrowRight, Link as LinkIcon } from "lucide-react";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
-import { events } from "../../mock/eventsData";
+import { useEvents } from "../../hooks/useEvents";
 
 const Events = () => {
+  const { events } = useEvents();
   const upcomingEvents = events.filter(e => e.status === "Upcoming");
   const pastEvents = events.filter(e => e.status === "Past");
 
@@ -25,8 +26,16 @@ const Events = () => {
             <span>{event.date}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-300 text-sm">
-            <MapPin size={16} className="text-purple-400" />
-            <span>{event.location}</span>
+            {event.type === 'virtual' ? (
+              <LinkIcon size={16} className="text-purple-400" />
+            ) : (
+              <MapPin size={16} className="text-purple-400" />
+            )}
+            {event.type === 'virtual' && event.url ? (
+              <a href={event.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{event.location}</a>
+            ) : (
+              <span>{event.location}</span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-gray-300 text-sm">
             <Users size={16} className="text-green-400" />

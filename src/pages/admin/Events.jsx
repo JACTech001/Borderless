@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Plus, Edit, Trash2, Eye, Calendar, MapPin, Users, X } from "lucide-react";
-import { events } from "../../mock/eventsData";
+import { Plus, Edit, Trash2, Eye, Calendar, MapPin, Users, X, Link as LinkIcon } from "lucide-react";
+import { useEvents } from "../../hooks/useEvents";
 
 const StatBox = ({ label, value, color }) => (
   <div className="bg-[#151521] border border-[#26263a] rounded-xl p-6 hover:border-purple-500/50 transition">
@@ -11,6 +11,7 @@ const StatBox = ({ label, value, color }) => (
 );
 
 export default function AdminEvents() {
+  const { events, addEvent } = useEvents();
   const [filter, setFilter] = useState("all");
   const [showModal, setShowModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -20,7 +21,9 @@ export default function AdminEvents() {
     description: "",
     date: "",
     time: "",
+    type: "physical",
     location: "",
+    url: "",
     category: "Meetup",
     maxAttendees: 100,
   });
@@ -31,6 +34,7 @@ export default function AdminEvents() {
       : events.filter((e) => e.status.toLowerCase() === filter.toLowerCase());
 
   const handleAddEvent = () => {
+    addEvent(newEvent);
     alert(`Event "${newEvent.title}" created successfully!`);
     setShowModal(false);
     setNewEvent({
@@ -38,7 +42,9 @@ export default function AdminEvents() {
       description: "",
       date: "",
       time: "",
+      type: "physical",
       location: "",
+      url: "",
       category: "Meetup",
       maxAttendees: 100,
     });
@@ -84,7 +90,7 @@ export default function AdminEvents() {
         />
         <StatBox
           label="Total Attendees"
-          value={events.reduce((sum, e) => sum + e.attendees, 0)}
+          value={events.reduce((sum, e) => sum + (e.attendees || 0), 0)}
           color="bg-purple-500"
         />
       </div>
@@ -136,7 +142,14 @@ export default function AdminEvents() {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="text-sm text-gray-300">{event.location}</p>
+                  {event.type === 'virtual' && event.url ? (
+                    <a href={event.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm text-purple-400 hover:underline">
+                      <LinkIcon size={14} />
+                      Virtual Event
+                    </a>
+                  ) : (
+                    <p className="text-sm text-gray-300">{event.location}</p>
+                  )}
                 </td>
                 <td className="px-6 py-4">
                   <p className="text-sm font-medium">
@@ -244,15 +257,39 @@ export default function AdminEvents() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">Location</label>
-                <input
-                  type="text"
-                  value={newEvent.location}
-                  onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-                  className="w-full p-3 rounded-lg bg-[#1a1a2e] border border-[#26263a] focus:border-purple-600 outline-none transition"
-                  placeholder="Event location or Virtual (Zoom)"
-                />
+              <div className="space-y-2">
+                <label className="block text-sm font-medium">Event Type</label>
+                <div className="flex gap-4">
+                    <button type="button" onClick={() => setNewEvent({ ...newEvent, type: 'physical' })} className={`px-4 py-2 rounded-lg font-medium transition ${newEvent.type === 'physical' ? 'bg-purple-600 text-white' : 'bg-[#1a1a2e] border border-[#26263a]'}`}>Physical</button>
+                    <button type="button" onClick={() => setNewEvent({ ...newEvent, type: 'virtual' })} className={`px-4 py-2 rounded-lg font-medium transition ${newEvent.type === 'virtual' ? 'bg-purple-600 text-white' : 'bg-[#1a1a2e] border border-[#26263a]'}`}>Virtual</button>
+                </div>
+              </div>
+
+              {newEvent.type === 'physical' ? (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Location</label>
+                  <input
+                    type="text"
+                    value={newEvent.location}
+                    onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                    className="w-full p-3 rounded-lg bg-[#1a1a2e] border border-[#26263a] focus:border-purple-600 outline-none transition"
+                    placeholder="Enter physical address"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium mb-2">Meeting URL</label>
+                  <input
+                    type="url"
+                    value={newEvent.url}
+                    onChange={(e) => setNewEvent({ ...newEvent, url: e.target.value })}
+                    className="w-full p-3 rounded-lg bg-[#1a1a2e] border border-[#26263a] focus:border-purple-600 outline-none transition"
+                    placeholder="https://zoom.us/j/..."
+                  />
+                </div>
+              )}
+
+              <div className="grid md:grid-cols-2 gap-4">
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -326,7 +363,11 @@ export default function AdminEvents() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 text-gray-500"><MapPin size={14} /> Location</div>
-                  <p className="text-gray-200 mt-1">{viewingEvent.location}</p>
+                  {viewingEvent.type === 'virtual' && viewingEvent.url ? (
+                    <a href={viewingEvent.url} target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline mt-1 block truncate">{viewingEvent.url}</a>
+                  ) : (
+                    <p className="text-gray-200 mt-1">{viewingEvent.location}</p>
+                  )}
                 </div>
                 <div>
                   <div className="flex items-center gap-2 text-gray-500"><Users size={14} /> Attendees</div>

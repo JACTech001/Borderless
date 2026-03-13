@@ -1,17 +1,9 @@
 import { Settings, Lock, Database, BellIcon, Shield, Key, Save } from "lucide-react";
 import { useState } from "react";
+import { initialAdminSettings } from "../../mock/adminSettingsData";
 
 export default function AdminSettings() {
-  const [settings, setSettings] = useState({
-    platformName: "Borderless Tech",
-    description: "A community-driven platform for tech collaboration",
-    maintenanceMode: false,
-    autoBackup: true,
-    emailNotifications: true,
-    tokenRewardsEnabled: true,
-    maxTasksPerMember: 10,
-    defaultTokenReward: 25,
-  });
+  const [settings, setSettings] = useState(initialAdminSettings);
 
   const [saved, setSaved] = useState(false);
 

@@ -32,12 +32,13 @@ import AdminEvents from "./pages/admin/Events";
 import AdminCommunity from "./pages/admin/AdminCommunity";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import { EventsProvider } from "./context/EventsContext";
 
 const App = () => {
   return (
-    <div className="relative min-h-screen bg-[radial-gradient(ellipse_at_top,_#1e1b4b_0%,_#0f0c29_40%,_#0a0a1f_100%)]">
-
-      <Routes>
+    <EventsProvider>
+      <div className="relative min-h-screen bg-[radial-gradient(ellipse_at_top,_#1e1b4b_0%,_#0f0c29_40%,_#0a0a1f_100%)]">
+        <Routes>
 
         {/* PUBLIC PAGES */}
 
@@ -108,9 +109,9 @@ const App = () => {
 
         </Route>
 
-      </Routes>
-
-    </div>
+        </Routes>
+      </div>
+    </EventsProvider>
   );
 };
 
