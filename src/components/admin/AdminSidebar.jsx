@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, BarChart3, Users, CheckSquare, FileText, Settings, LogOut, Calendar, X } from "lucide-react";
+import { LayoutDashboard, BarChart3, Users, CheckSquare, FileText, Settings, LogOut, Calendar, X, CalendarCheck, Globe } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -61,6 +61,28 @@ export default function AdminSidebar({ onClose }) {
         >
           <BarChart3 size={20} />
           Analytics
+        </NavLink>
+
+        {/* Attendance */}
+        <NavLink
+          to="/admin/attendance"
+          className={({ isActive }) =>
+            `${linkClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          <CalendarCheck size={20} />
+          Attendance
+        </NavLink>
+
+        {/* Community */}
+        <NavLink
+          to="/admin/community"
+          className={({ isActive }) =>
+            `${linkClass} ${isActive ? activeClass : inactiveClass}`
+          }
+        >
+          <Globe size={20} />
+          Community
         </NavLink>
 
         {/* Users */}

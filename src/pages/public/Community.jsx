@@ -1,6 +1,48 @@
 import React from "react";
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
+import { socialPlatforms } from "../../mock/communityData";
+
+const PlatformCard = ({ platform }) => {
+  const statusColors = {
+    green: "bg-green-500/10 text-green-500 border-green-500/20",
+    blue: "bg-blue-500/10 text-blue-400",
+    sky: "bg-sky-500/10 text-sky-400",
+    gray: "bg-gray-500/10 text-gray-300",
+    purple: "bg-purple-500/10 text-purple-400",
+  };
+  const iconColors = {
+    green: "text-green-400",
+    blue: "text-blue-400",
+    sky: "text-sky-400",
+    gray: "text-gray-300",
+    purple: "text-purple-400",
+  };
+
+  const Icon = platform.icon;
+
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10 flex flex-col">
+      <div className="relative flex items-start justify-between">
+        <Icon className={`text-4xl ${iconColors[platform.statusColor] || 'text-gray-300'}`} />
+        <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColors[platform.statusColor] || ''}`}>
+          {platform.status}
+        </span>
+      </div>
+      <h3 className="mt-6 text-xl font-bold text-white">{platform.name}</h3>
+      <p className="mt-2 text-sm text-slate-400 flex-grow">{platform.description}</p>
+      <a
+        href={platform.url}
+        target={platform.url.startsWith('http') ? '_blank' : '_self'}
+        rel="noopener noreferrer"
+        className={`mt-6 inline-flex items-center gap-2 ${iconColors[platform.statusColor] || 'text-gray-300'} font-semibold hover:gap-3 transition-all`}
+      >
+        {platform.id === 'github' ? 'View Repository' : platform.id === 'hub-portal' ? 'Open Portal' : platform.id === 'linkedin' ? 'Connect' : platform.id === 'twitter' ? 'Follow Us' : 'Join'}
+        <span className="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
+  );
+};
 
 export default function Community() {
   return (
@@ -131,209 +173,9 @@ export default function Community() {
 
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            {/* Discord */}
-            <div className="glass-card p-6 rounded-xl flex flex-col h-full group">
-
-              <div className="flex justify-between items-start mb-6">
-                <div className="size-12 rounded-lg bg-[#5865F2]/20 flex items-center justify-center text-[#5865F2]">
-                  <span className="material-symbols-outlined text-3xl">
-                    forum
-                  </span>
-                </div>
-
-                <span className="text-[10px] font-bold py-1 px-2 rounded bg-green-500/10 text-green-500 border border-green-500/20 uppercase tracking-widest">
-                  Active
-                </span>
-              </div>
-
-              <h3 className="text-xl font-bold mb-2">Discord</h3>
-
-              <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-grow">
-                Join our real-time chat for technical support, workshops, and
-                networking with devs.
-              </p>
-
-              <div className="flex items-center justify-between mt-auto">
-                <span className="text-xs font-semibold text-slate-500">
-                  12k members
-                </span>
-
-                <a
-                  className="text-primary font-bold text-sm flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                  href="#"
-                >
-                  Join Server
-                  <span className="material-symbols-outlined text-sm">
-                    arrow_forward
-                  </span>
-                </a>
-              </div>
-            </div>
-
-                        {/* Telegram */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-blue-400/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-blue-400">send</span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-blue-500/10 text-blue-400">
-      Chat
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">Telegram</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Real-time community discussions, quick updates, and direct access to the
-    Borderless ecosystem.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-blue-400 font-semibold hover:gap-3 transition-all"
-  >
-    Join Telegram
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
-
-{/* Twitter */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-sky-400/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-sky-400">alternate_email</span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-sky-500/10 text-sky-400">
-      Social
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">Twitter</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Stay updated with the latest announcements, product launches, and
-    community highlights.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-sky-400 font-semibold hover:gap-3 transition-all"
-  >
-    Follow Us
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
-
-{/* WhatsApp */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-green-400/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-green-400">
-      chat
-    </span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-500/10 text-green-400">
-      Community
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">WhatsApp</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Join our WhatsApp community to connect with members, share ideas, and stay
-    updated with the latest announcements from Borderless Tech Hub.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-green-400 font-semibold hover:gap-3 transition-all"
-  >
-    Join WhatsApp
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
-
-{/* GitHub */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-gray-500/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-gray-500/10 to-gray-400/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-gray-300">code</span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-gray-500/10 text-gray-300">
-      Open Source
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">GitHub</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Explore our open-source repositories, contribute code, and help build
-    Borderless tools.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-gray-300 font-semibold hover:gap-3 transition-all"
-  >
-    View Repository
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
-
-{/* LinkedIn */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-600/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-blue-500/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-blue-500">business</span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-blue-600/10 text-blue-500">
-      Network
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">LinkedIn</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Connect professionally with the Borderless network and explore career
-    opportunities.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-blue-500 font-semibold hover:gap-3 transition-all"
-  >
-    Connect
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
-
-{/* Hub Portal */}
-<div className="group relative overflow-hidden rounded-2xl border border-card-border bg-card-dark p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10">
-  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-purple-400/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-  <div className="relative flex items-start justify-between">
-    <span className="material-symbols-outlined text-4xl text-purple-400">hub</span>
-    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-purple-500/10 text-purple-400">
-      Platform
-    </span>
-  </div>
-
-  <h3 className="mt-6 text-xl font-bold text-white">Hub Portal</h3>
-
-  <p className="mt-2 text-sm text-slate-400">
-    Access the Borderless Tech Hub dashboard, manage communities, and explore
-    decentralized tools.
-  </p>
-
-  <a
-    href="#"
-    className="mt-6 inline-flex items-center gap-2 text-purple-400 font-semibold hover:gap-3 transition-all"
-  >
-    Open Portal
-    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-  </a>
-</div>
+            {socialPlatforms.map(platform => (
+              <PlatformCard key={platform.id} platform={platform} />
+            ))}
           </div>
         </div>
       </section>

@@ -16,7 +16,6 @@ import AdminLayout from "./components/layout/AdminLayout";
 
 import Dashboard from "./pages/member/Dashboard";
 import Tasks from "./pages/member/Tasks";
-import Attendance from "./pages/member/Attendance";
 import Wallet from "./pages/member/Wallet";
 import Activity from "./pages/member/Activity";
 import Reports from "./pages/member/Reports";
@@ -28,7 +27,9 @@ import AdminTasks from "./pages/admin/Tasks";
 import AdminReports from "./pages/admin/Reports";
 import AdminSettings from "./pages/admin/Settings";
 import AdminAnalytics from "./pages/admin/Analytics";
+import AdminAttendance from "./components/layout/AdminAttendance";
 import AdminEvents from "./pages/admin/Events";
+import AdminCommunity from "./pages/admin/AdminCommunity";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -66,8 +67,6 @@ const App = () => {
 
           <Route path="tasks" element={<Tasks />} />
 
-          <Route path="attendance" element={<Attendance />} />
-
           <Route path="wallet" element={<Wallet />} />
 
           <Route path="activity" element={<Activity />} />
@@ -90,6 +89,10 @@ const App = () => {
         >
 
           <Route index element={<AdminDashboard />} />
+
+          <Route path="attendance" element={<AdminAttendance />} />
+
+          <Route path="community" element={<AdminCommunity />} />
 
           <Route path="analytics" element={<AdminAnalytics />} />
 

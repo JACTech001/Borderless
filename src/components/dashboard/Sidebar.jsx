@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 
 import {
   LayoutDashboard,
   CheckSquare,
-  CalendarDays,
   Wallet,
   History,
   Settings,
@@ -12,6 +12,13 @@ import {
 } from "../../icons"
 
 export default function Sidebar({ onClose }) {
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate("/")
+  }
 
   const linkClass =
     "flex items-center gap-3 p-2 rounded transition-colors"
@@ -67,19 +74,6 @@ export default function Sidebar({ onClose }) {
         </NavLink>
 
 
-        {/* Attendance */}
-
-        <NavLink
-          to="/dashboard/attendance"
-          className={({ isActive }) =>
-            `${linkClass} ${isActive ? activeClass : inactiveClass}`
-          }
-        >
-          <CalendarDays size={18} />
-          Attendance
-        </NavLink>
-
-
         {/* Wallet */}
 
         <NavLink
@@ -123,7 +117,10 @@ export default function Sidebar({ onClose }) {
 
       {/* Logout Button */}
 
-      <button className="flex items-center gap-3 p-2 rounded text-gray-300 hover:bg-[#1e293b] mt-6">
+      <button 
+        onClick={handleLogout}
+        className="flex items-center gap-3 p-2 rounded text-gray-300 hover:bg-[#1e293b] mt-6"
+      >
         <LogOut size={18} />
         Log Out
       </button>
